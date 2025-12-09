@@ -1,50 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
-import { X, Check } from 'lucide-react';
-import { Image as ImageIcon } from 'lucide-react';
+import { X, Check, Image as ImageIcon } from 'lucide-react';
 import { eventDataAtom, extractedColorsAtom } from '@/lib/store/atoms';
-import { apiClient } from '@/lib/api/client';
-
-const backgroundGradients = {
-  'gradient-1': 'from-[#E47CB8] via-[#A97CE4] to-[#5CB4E4]',
-  'gradient-2': 'from-[#FF6B9D] via-[#C76BFF] to-[#6BB6FF]',
-  'gradient-3': 'from-[#FFA07A] via-[#DDA0FF] to-[#7ACBFF]',
-  'gradient-4': 'from-[#FF8C94] via-[#B88CFF] to-[#8CC4FF]',
-};
-
-interface Background {
-  id: string;
-  name: string;
-  gradient: string;
-  thumbnail: string;
-}
+import { useBackgrounds } from '@/lib/hooks/useBackgrounds';
 
 export default function BackgroundSelector() {
   const [eventData, setEventData] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(eventDataAtom);
   const [extractedColors, setExtractedColors] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(extractedColorsAtom);
-  const [backgrounds, setBackgrounds] = useState<Background[]>([]);
+  const { backgrounds } = useBackgrounds();
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    loadBackgrounds();
-  }, []);
-
-  const loadBackgrounds = async () => {
-    setLoading(true);
-    try {
-      const response = await apiClient.getBackgrounds();
-      if (response.data && Array.isArray(response.data)) {
-        setBackgrounds(response.data as Background[]);
-      }
-    } catch (error) {
-      console.error('Failed to load backgrounds:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const selectBackground = (bgId: string) => {
     // Clear extracted colors so the selected background takes priority
