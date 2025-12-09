@@ -5,6 +5,7 @@ import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { Link as LinkIcon, Plus, X } from 'lucide-react';
 import { selectedModulesAtom } from '@/lib/store/atoms';
 import { LinkItem } from '@/lib/types/link';
+import { createNewLink } from '@/lib/utils/linkHelpers';
 
 export default function LinksInput() {
   const [selectedModules, setSelectedModules] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(selectedModulesAtom);
@@ -12,11 +13,7 @@ export default function LinksInput() {
   const links: LinkItem[] = linksModule?.data?.links || [];
 
   const addLink = () => {
-    const newLink: LinkItem = {
-      id: `link_${Date.now()}`,
-      url: '',
-      label: '',
-    };
+    const newLink = createNewLink();
 
     setSelectedModules(prev =>
       prev.map(m =>
@@ -62,11 +59,7 @@ export default function LinksInput() {
   // Add initial link if none exists
   useEffect(() => {
     if (linksModule && links.length === 0) {
-      const newLink: LinkItem = {
-        id: `link_${Date.now()}`,
-        url: '',
-        label: '',
-      };
+      const newLink = createNewLink();
 
       setSelectedModules(prev =>
         prev.map(m =>
