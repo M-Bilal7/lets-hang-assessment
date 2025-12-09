@@ -1,16 +1,4 @@
-interface APIResponse<T> {
-  data?: T;
-  error?: string;
-  message?: string;
-  details?: any;
-}
-
-interface Background {
-  id: string;
-  name: string;
-  gradient: string;
-  thumbnail: string;
-}
+import { APIResponse, Background } from '@/lib/types/api';
 
 class APIClient {
   private baseURL: string;
