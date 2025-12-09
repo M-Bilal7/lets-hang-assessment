@@ -33,6 +33,7 @@ export default function PhoneInput({ control, name, error }: PhoneInputProps) {
         <button
           type="button"
           className="bg-white/15 rounded-full p-1.5 hover:bg-white/25 transition-all flex-shrink-0"
+          aria-label="Submit phone number"
         >
           <span className="text-white text-sm leading-none">→</span>
         </button>
