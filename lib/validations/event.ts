@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// Event form validation schema with custom error messages
 export const eventFormSchema = z.object({
   phoneNumber: z
     .string()
