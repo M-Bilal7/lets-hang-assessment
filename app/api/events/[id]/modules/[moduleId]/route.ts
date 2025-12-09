@@ -4,18 +4,19 @@ import { NextRequest, NextResponse } from 'next/server';
 const eventModulesDB = new Map<string, any[]>();
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string;
     moduleId: string;
-  };
+  }>;
 }
 
 export async function DELETE(
   request: NextRequest,
   { params }: RouteParams
 ) {
-  const modules = eventModulesDB.get(params.id) || [];
-  const moduleIndex = modules.findIndex(m => m.id === params.moduleId);
+  const { id, moduleId } = await params;
+  const modules = eventModulesDB.get(id) || [];
+  const moduleIndex = modules.findIndex(m => m.id === moduleId);
 
   if (moduleIndex === -1) {
     return NextResponse.json(
@@ -24,8 +25,8 @@ export async function DELETE(
     );
   }
 
-  const updatedModules = modules.filter(m => m.id !== params.moduleId);
-  eventModulesDB.set(params.id, updatedModules);
+  const updatedModules = modules.filter(m => m.id !== moduleId);
+  eventModulesDB.set(id, updatedModules);
 
   return NextResponse.json({
     message: 'Module removed successfully',
@@ -37,8 +38,9 @@ export async function PATCH(
   { params }: RouteParams
 ) {
   try {
-    const modules = eventModulesDB.get(params.id) || [];
-    const moduleIndex = modules.findIndex(m => m.id === params.moduleId);
+    const { id, moduleId } = await params;
+    const modules = eventModulesDB.get(id) || [];
+    const moduleIndex = modules.findIndex(m => m.id === moduleId);
 
     if (moduleIndex === -1) {
       return NextResponse.json(
@@ -56,7 +58,7 @@ export async function PATCH(
     };
 
     modules[moduleIndex] = updatedModule;
-    eventModulesDB.set(params.id, modules);
+    eventModulesDB.set(id, modules);
 
     return NextResponse.json({
       data: updatedModule,
