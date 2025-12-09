@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import { generateEventId } from '@/lib/utils/idGenerator';
 
 const eventSchema = z.object({
   phoneNumber: z.string().min(1),
@@ -41,7 +42,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = eventSchema.parse(body);
 
-    const id = `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const id = generateEventId();
     const event = {
       id,
       ...validatedData,
