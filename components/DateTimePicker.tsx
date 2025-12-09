@@ -23,7 +23,7 @@ export default function DateTimePicker({ control, name, error }: DateTimePickerP
             selected={value}
             onChange={onChange}
             showTimeSelect
-            timeIntervals={15}
+            timeIntervals={30}
             minDate={new Date()}
             dateFormat="MMMM d, yyyy h:mm aa"
             placeholderText="Date and time"
