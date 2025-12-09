@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { Users } from 'lucide-react';
 import { selectedModulesAtom } from '@/lib/store/atoms';
+import { validateCapacity } from '@/lib/utils/validation';
 
 export default function CapacityInput() {
   const [selectedModules, setSelectedModules] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(selectedModulesAtom);
@@ -20,19 +21,15 @@ export default function CapacityInput() {
   const handleCapacityChange = (value: string) => {
     setCapacity(value);
 
-    // Validation
-    if (!value) {
-      setError('Capacity is required');
-      return;
-    }
-
-    const numValue = parseInt(value, 10);
-    if (isNaN(numValue) || numValue <= 0) {
-      setError('Capacity must be a number greater than 0');
+    const validationError = validateCapacity(value);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     setError('');
+
+    const numValue = parseInt(value, 10);
 
     // Update the module data
     setSelectedModules(prev =>
