@@ -4,12 +4,7 @@ import { useEffect } from 'react';
 import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { Link as LinkIcon, Plus, X } from 'lucide-react';
 import { selectedModulesAtom } from '@/lib/store/atoms';
-
-interface LinkItem {
-  id: string;
-  url: string;
-  label: string;
-}
+import { LinkItem } from '@/lib/types/link';
 
 export default function LinksInput() {
   const [selectedModules, setSelectedModules] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(selectedModulesAtom);
