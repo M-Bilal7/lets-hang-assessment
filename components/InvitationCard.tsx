@@ -7,23 +7,18 @@ import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE, useRecoilState_TRANSITION_S
 import BackgroundSelector from './BackgroundSelector';
 import { eventDataAtom, extractedColorsAtom } from '@/lib/store/atoms';
 import { extractColorsFromImage } from '@/lib/utils/imageColors';
+import { backgroundGradients } from '@/lib/constants/gradients';
+import { DEFAULT_FLYER_IMAGE } from '@/lib/constants/defaults';
 
 const FlyerImageEditor = dynamic(() => import('./FlyerImageEditor'), {
   ssr: false,
 });
 
-const backgroundGradients: Record<string, string> = {
-  'gradient-1': 'from-[#E47CB8] via-[#A97CE4] to-[#5CB4E4]',
-  'gradient-2': 'from-[#FF6B9D] via-[#C76BFF] to-[#6BB6FF]',
-  'gradient-3': 'from-[#FFA07A] via-[#DDA0FF] to-[#7ACBFF]',
-  'gradient-4': 'from-[#FF8C94] via-[#B88CFF] to-[#8CC4FF]',
-};
-
 export default function InvitationCard() {
   const eventData = useRecoilValue_TRANSITION_SUPPORT_UNSTABLE(eventDataAtom);
   const [extractedColors, setExtractedColors] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(extractedColorsAtom);
 
-  const hasCustomFlyer = eventData.flyerImage && eventData.flyerImage !== '/default-flyer.jpg';
+  const hasCustomFlyer = eventData.flyerImage && eventData.flyerImage !== DEFAULT_FLYER_IMAGE;
 
   // Extract colors from uploaded flyer
   useEffect(() => {
