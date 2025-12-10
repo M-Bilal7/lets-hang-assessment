@@ -1,7 +1,7 @@
+import path from 'path';
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import path from 'path';
 import { validateImageFile } from '@/lib/utils/fileValidation';
 
 export async function POST(request: NextRequest) {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     console.error('Upload error:', error);
     return NextResponse.json(
       { error: 'Failed to upload file' },
-      { status: 500 }
+      { status: 400 }
     );
   }
 }

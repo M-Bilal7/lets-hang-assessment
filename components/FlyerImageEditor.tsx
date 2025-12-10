@@ -7,7 +7,7 @@ import { eventDataAtom } from '@/lib/store/atoms';
 import { apiClient } from '@/lib/api/client';
 
 export default function FlyerImageEditor() {
-  const [eventData, setEventData] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(eventDataAtom);
+  const [_, setEventData] = useRecoilState_TRANSITION_SUPPORT_UNSTABLE(eventDataAtom);
   const [isUploading, setIsUploading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
