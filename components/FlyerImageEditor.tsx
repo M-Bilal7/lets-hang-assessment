@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { Upload, X } from 'lucide-react';
 import { eventDataAtom } from '@/lib/store/atoms';
@@ -29,6 +30,39 @@ export default function FlyerImageEditor() {
     }
   };
 
+  const modalContent = showModal && (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center" style={{ zIndex: 9999 }}>
+      <div className="bg-[#7A6B8A] rounded-[24px] p-6 max-w-md w-full mx-4">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-white text-xl font-bold">Upload Flyer Image</h3>
+          <button type="button" onClick={() => setShowModal(false)}>
+            <X className="w-5 h-5 text-white" />
+          </button>
+        </div>
+
+        <div className="border-2 border-dashed border-white/30 rounded-lg p-8 text-center">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileUpload}
+            className="hidden"
+            id="flyer-upload"
+            disabled={isUploading}
+          />
+          <label
+            htmlFor="flyer-upload"
+            className="cursor-pointer flex flex-col items-center gap-2"
+          >
+            <Upload className="w-12 h-12 text-white/60" />
+            <p className="text-white/80 text-sm">
+              {isUploading ? 'Uploading...' : 'Click to upload image'}
+            </p>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <button
@@ -39,38 +73,7 @@ export default function FlyerImageEditor() {
         <Upload className="w-5 h-5 text-white" strokeWidth={2.5} />
       </button>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-[#7A6B8A] rounded-[24px] p-6 max-w-md w-full mx-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-white text-xl font-bold">Upload Flyer Image</h3>
-              <button type="button" onClick={() => setShowModal(false)}>
-                <X className="w-5 h-5 text-white" />
-              </button>
-            </div>
-
-            <div className="border-2 border-dashed border-white/30 rounded-lg p-8 text-center">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                className="hidden"
-                id="flyer-upload"
-                disabled={isUploading}
-              />
-              <label
-                htmlFor="flyer-upload"
-                className="cursor-pointer flex flex-col items-center gap-2"
-              >
-                <Upload className="w-12 h-12 text-white/60" />
-                <p className="text-white/80 text-sm">
-                  {isUploading ? 'Uploading...' : 'Click to upload image'}
-                </p>
-              </label>
-            </div>
-          </div>
-        </div>
-      )}
+      {showModal && typeof document !== 'undefined' && createPortal(modalContent, document.body)}
     </>
   );
 }
