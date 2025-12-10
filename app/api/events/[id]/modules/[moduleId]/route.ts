@@ -10,22 +10,35 @@ interface RouteParams {
   }>;
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
-  const { id, moduleId } = await params;
+function getModuleData(id: string, moduleId: string) {
   const modules = eventModulesDB.get(id) || [];
-  const moduleIndex = modules.findIndex(m => m.id === moduleId);
+  const moduleIndex = modules.findIndex((m) => m.id === moduleId);
 
   if (moduleIndex === -1) {
-    return NextResponse.json(
-      { error: 'Module not found' },
-      { status: 404 }
-    );
+    return {
+      errorResponse: NextResponse.json(
+        { error: 'Module not found' },
+        { status: 404 }
+      ),
+      modules: null,
+      moduleIndex: -1
+    };
   }
 
-  const updatedModules = modules.filter(m => m.id !== moduleId);
+  return {
+    errorResponse: null,
+    modules,
+    moduleIndex
+  };
+}
+
+export async function DELETE({ params }: RouteParams) {
+  const { id, moduleId } = await params;
+
+  const { errorResponse, modules, moduleIndex } = getModuleData(id, moduleId);
+  if (errorResponse) return errorResponse;
+
+  const updatedModules = modules!.filter((m) => m.id !== moduleId);
   eventModulesDB.set(id, updatedModules);
 
   return NextResponse.json({
@@ -33,32 +46,23 @@ export async function DELETE(
   });
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     const { id, moduleId } = await params;
-    const modules = eventModulesDB.get(id) || [];
-    const moduleIndex = modules.findIndex(m => m.id === moduleId);
 
-    if (moduleIndex === -1) {
-      return NextResponse.json(
-        { error: 'Module not found' },
-        { status: 404 }
-      );
-    }
+    const { errorResponse, modules, moduleIndex } = getModuleData(id, moduleId);
+    if (errorResponse) return errorResponse;
 
     const body = await request.json();
 
     const updatedModule = {
-      ...modules[moduleIndex],
+      ...modules![moduleIndex],
       ...body,
       updatedAt: new Date().toISOString(),
     };
 
-    modules[moduleIndex] = updatedModule;
-    eventModulesDB.set(id, modules);
+    modules![moduleIndex] = updatedModule;
+    eventModulesDB.set(id, modules!);
 
     return NextResponse.json({
       data: updatedModule,
@@ -66,8 +70,8 @@ export async function PATCH(
     });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Bad request' },
+      { status: 400 }
     );
   }
 }

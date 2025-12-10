@@ -1,5 +1,5 @@
 export const generateEventId = (): string => {
-  return `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `event_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
 };
 
 export const generateModuleId = (type: string): string => {

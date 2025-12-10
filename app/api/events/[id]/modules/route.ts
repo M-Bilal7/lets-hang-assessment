@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 const moduleSchema = z.object({
   type: z.enum(['capacity', 'photo_gallery', 'links', 'custom']),
-  config: z.record(z.string(), z.any()),
+  config: z.record(z.string(), z.json()),
 });
 
 const eventModulesDB = new Map<string, any[]>();
@@ -15,7 +15,6 @@ interface RouteContext {
 }
 
 export async function GET(
-  request: NextRequest,
   context: RouteContext
 ) {
   const { id } = await context.params;
@@ -36,7 +35,7 @@ export async function POST(
     const existingModules = eventModulesDB.get(id) || [];
 
     const newModule = {
-      id: `module_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `module_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
       eventId: id,
       ...validatedData,
       createdAt: new Date().toISOString(),
@@ -61,8 +60,8 @@ export async function POST(
     }
 
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Bad request' },
+      { status: 400 }
     );
   }
 }
