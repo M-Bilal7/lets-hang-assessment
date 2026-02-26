@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 const updateEventSchema = z.object({
   phoneNumber: z.string().min(1).optional(),
-  dateTime: z.string().datetime().optional(),
+  dateTime: z.iso.datetime().optional(),
   location: z.string().min(3).max(100).optional(),
   cost: z.string().min(1).optional(),
   description: z.string().max(500).optional(),
@@ -12,7 +12,7 @@ const updateEventSchema = z.object({
   modules: z.array(z.object({
     id: z.string(),
     type: z.enum(['capacity', 'photo_gallery', 'links', 'custom']),
-    config: z.record(z.string(), z.any()),
+    config: z.record(z.string(), z.json()),
   })).optional(),
 });
 
@@ -80,8 +80,8 @@ export async function PATCH(
     }
 
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: 'Bad request' },
+      { status: 400 }
     );
   }
 }

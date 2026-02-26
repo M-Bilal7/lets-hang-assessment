@@ -1,8 +1,5 @@
 'use client';
 
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import PhoneInput from './PhoneInput';
 import DateTimePicker from './DateTimePicker';
 import LocationInput from './LocationInput';
@@ -10,6 +7,9 @@ import CostInput from './CostInput';
 import ModuleManager from './ModuleManager';
 import ModuleInputs from './ModuleInputs';
 import CustomizeSection from './CustomizeSection';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { apiClient } from '@/lib/api/client';
 import { eventFormSchema, EventFormData } from '@/lib/validations/event';
 import { selectedModulesAtom, eventDataAtom } from '@/lib/store/atoms';

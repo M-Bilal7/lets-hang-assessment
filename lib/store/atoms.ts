@@ -28,8 +28,8 @@ export const eventDataAtom = atom<EventData>({
     location: '',
     cost: '',
     description: '',
-    flyerImage: '/default-flyer.jpg',
-    backgroundImage: '/default-bg.jpg',
+    flyerImage: '',
+    backgroundImage: '',
     modules: [],
   },
 });
@@ -41,11 +41,6 @@ export const selectedModulesAtom = atom<EventModule[]>({
 
 export const availableBackgroundsAtom = atom<string[]>({
   key: 'availableBackgrounds',
-  default: [
-    '/backgrounds/gradient-1.jpg',
-    '/backgrounds/gradient-2.jpg',
-    '/backgrounds/gradient-3.jpg',
-  ],
 });
 
 export const extractedColorsAtom = atom<string[] | null>({

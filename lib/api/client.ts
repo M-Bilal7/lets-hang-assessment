@@ -30,7 +30,7 @@ class APIClient {
 
       return data;
     } catch (error) {
-      console.error(`API Error (${endpoint}):`, error);
+      console.error(`Error (${endpoint}):`, error);
       throw error;
     }
   }

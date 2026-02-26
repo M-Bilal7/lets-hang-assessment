@@ -1,6 +1,6 @@
+import RecoilRootWrapper from '@/components/RecoilRootWrapper';
 import type { Metadata } from "next";
 import "./globals.css";
-import RecoilRootWrapper from '@/components/RecoilRootWrapper';
 
 export const metadata: Metadata = {
   title: "Let's Hang Assessment",

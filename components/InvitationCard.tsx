@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE, useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import BackgroundSelector from './BackgroundSelector';
+import { useEffect } from 'react';
+import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE, useRecoilState_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { eventDataAtom, extractedColorsAtom } from '@/lib/store/atoms';
 import { extractColorsFromImage } from '@/lib/utils/imageColors';
 import { backgroundGradients } from '@/lib/constants/gradients';

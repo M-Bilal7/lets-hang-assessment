@@ -1,8 +1,8 @@
 'use client';
 
-import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
-import InvitationCard from '@/components/InvitationCard';
 import EventForm from '@/components/EventForm';
+import InvitationCard from '@/components/InvitationCard';
+import { useRecoilValue_TRANSITION_SUPPORT_UNSTABLE } from 'recoil';
 import { extractedColorsAtom, eventDataAtom } from '@/lib/store/atoms';
 import { getPageBackgroundStyle } from '@/lib/utils/backgroundHelpers';
 
